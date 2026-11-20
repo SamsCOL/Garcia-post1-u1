@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "Laboratorio HTTP - Unidad 1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET post 1 (200)",
+      "request": { "method": "GET", "url": "https://jsonplaceholder.typicode.com/posts/1" }
+    },
+    {
+      "name": "GET post 999 (404)",
+      "request": { "method": "GET", "url": "https://jsonplaceholder.typicode.com/posts/999" }
+    },
+    {
+      "name": "POST crear post (201)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 201 Created\", () => {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Respuesta incluye id asignado\", () => {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property(\"id\");",
+              "  pm.expect(json.title).to.equal(\"Laboratorio Programacion Web\");",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Laboratorio Programacion Web\",\n  \"body\": \"Analisis de peticiones HTTP con Postman.\",\n  \"userId\": 1\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "https://jsonplaceholder.typicode.com/posts"
+      }
+    }
+  ]
+}
